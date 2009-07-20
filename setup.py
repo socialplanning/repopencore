@@ -30,5 +30,8 @@ setup(name='repopencore',
       [console_scripts]
       mkopencoreconfig = repopencore:make_config
       run-opencore-wsgi = repopencore:start_server
+
+      [paste.composite_factory]
+      wsgifactory = repopencore.wsgi:factory
       """,
       )

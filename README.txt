@@ -67,7 +67,7 @@ You will need to install TaskTracker manually in your OpenCore virtualenv.
 Surprisingly, this seems to work without any dependency conflicts. After
 you've installed TaskTracker, you'll need to patch your newly installed
 copy of myghty.importer at L56:
- -#__builtin__.__import__ = import_module
+ -__builtin__.__import__ = import_module
  +#__builtin__.__import__ = import_module
 That monkeypatch of the built-in __import__ seems to break Zope's own
 munging of sys.path which results in ImportErrors all over the place.
@@ -79,3 +79,6 @@ you'll have to visit /tasks for all tasktracker-related activity and /oc
 for all opencore-related activity (so your site will be at /oc/openplans/)
 but if you configure everything correctly the functional integration will
 actually Just Work.
+
+Remember that you will need to run `paster setup-app opencore.ini#tasktracker`
+or similar on initial TaskTracker installation to set up the database.
