@@ -72,13 +72,11 @@ copy of myghty.importer at L56:
 That monkeypatch of the built-in __import__ seems to break Zope's own
 munging of sys.path which results in ImportErrors all over the place.
 
-Currently theming (with Deliverance) and inheritence of the project context
-from the proper URL paths are not in place. need to write some middleware
-to do the url dispatch and the management of the X-Openplans-* headers. so
-you'll have to visit /tasks for all tasktracker-related activity and /oc
-for all opencore-related activity (so your site will be at /oc/openplans/)
-but if you configure everything correctly the functional integration will
-actually Just Work.
+Currently theming (with Deliverance) is not in place, but otherwise the
+integration will actually Just Work as long as you've configured everything
+correctly per the example INI; make sure you use the provided composite app
+factory to dispatch to tasktracker in the right circumstances with the
+X-Openplans-Project header and other contextual information set.
 
 Remember that you will need to run `paster setup-app opencore.ini#tasktracker`
 or similar on initial TaskTracker installation to set up the database.
