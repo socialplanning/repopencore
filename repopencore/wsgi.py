@@ -38,13 +38,24 @@ def parse_project(environ):
         return project, path_info, script_name
     return None, path_info, script_name
 
+class App(object):
+    def __init__(self, app, header):
+        self.app = app
+        self.header = header
+
+    def __call__(self, environ, start_response):
+        return self.app(environ, start_response)
+
 def factory(loader, global_conf, **local_conf):
-    default_app = local_conf['.default']
+    default_app = local_conf['opencore']
     default_app = loader.get_app(default_app)
-    other_apps = [(key, loader.get_app(value))
-                  for key, value 
-                  in local_conf.items()
-                  if not key.startswith('.')]
+    default_app = App(default_app, '')
+
+    tasktracker = local_conf['tasktracker']
+    tasktracker = loader.get_app(tasktracker)
+    tasktracker = App(tasktracker, 'tasktracker')
+    
+    other_apps = [('/tasks', tasktracker)]
     return URLDispatcher(default_app,
                          *other_apps)
 
@@ -82,9 +93,9 @@ class URLDispatcher(object):
 
         # XXX TODO: look up what uses this, and, where, and how, and why, 
         #           and what it should look like
-        # also, don't hard code it to tasktracker.
         if not environ.has_key('HTTP_X_OPENPLANS_APPLICATION'):
             add_request_header('HTTP_X_OPENPLANS_APPLICATION',
-                               'tasktracker', environ)
+                               app_to_dispatch_to.header,
+                               environ)
 
         return app_to_dispatch_to(environ, start_response)
