@@ -30,9 +30,12 @@ setup(name='repopencore',
       [console_scripts]
       mkopencoreconfig = repopencore:make_config
       run-opencore-wsgi = repopencore:start_server
+
       install-myghty-fork = repopencore:install_myghty_fork
       install-tasktracker = repopencore:install_tasktracker
-  
+
+      mkopencoreconfig-with-tt = repopencore:make_config_with_tt
+
       [paste.composite_factory]
       wsgifactory = repopencore.wsgi:factory
       """,

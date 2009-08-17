@@ -6,7 +6,7 @@ paste.app_factory = repoze.obob.publisher:make_obob
 repoze.obob.get_root = repoze.zope2.z2bob:get_root
 repoze.obob.initializer = repoze.zope2.z2bob:initialize
 repoze.obob.helper_factory = repoze.zope2.z2bob:Zope2ObobHelper
-zope.conf = /home/ejucovy/opb/foo.bar.com/builds/20090507/opencore/zope/etc/zope.conf
+zope.conf = %(zope_conf)s
 
 [filter:errorlog]
 use = egg:repoze.errorlog#errorlog
@@ -25,6 +25,17 @@ pipeline = egg:Paste#cgitb
            egg:repoze.vhm#vhm_xheaders 
            errorlog
            zope2
+
+[composite:main]
+use = egg:repopencore#wsgifactory
+opencore = opencore
+tasktracker = tt
+
+[server:main]
+use = egg:repoze.zope2#zserver
+host = 127.0.0.1
+port = %(server_port)s
+
 
 [filter-app:tt]
 use = egg:PasteDeploy#prefix
@@ -48,28 +59,17 @@ database = sqlite://%(here)s/tasktracker.sqlite
 
 openplans_wrapper = tasktracker.lib.cookieauth:CookieAuth
 
-openplans_instance = http://localhost:4567/openplans
-login_uri = http://localhost:4567/openplans/login
-homepage_uri = http://localhost:4567/openplans
-profile_uri = http://localhost:4567/openplans/people/%s/profile
+openplans_instance = http://localhost:%(server_port)s/openplans
+login_uri = http://localhost:%(server_port)s/openplans/login
+homepage_uri = http://localhost:%(server_port)s/openplans
+profile_uri = http://localhost:%(server_port)s/openplans/people/%(percent)ss/profile
 
 # where secret stuff lives
-topp_secret_filename = %(here)s/../../../var/secret.txt
-topp_admin_info_filename = %(here)s/../../../var/admin.txt
+topp_secret_filename = %(shared_secret_file)s
+topp_admin_info_filename = %(admin_info_file)s
 
 translate_environ topp.project_name = HTTP_X_OPENPLANS_PROJECT
 
 #note: this is a type three universe. "A shoot-on-sight policy is less crazy than it sounds!" -JBR
 obsolete_future_history_dir = %(here)s/afh
-
-[composite:main]
-use = egg:repopencore#wsgifactory
-opencore = opencore
-tasktracker = tt
-
-[server:main]
-use = egg:repoze.zope2#zserver
-host = 127.0.0.1
-port = 4567
-
 
