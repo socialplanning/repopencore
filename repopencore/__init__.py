@@ -1,3 +1,14 @@
+def install_myghty_fork():
+    import subprocess
+    return subprocess.call(['easy_install',
+                            'http://svn.sccs.swarthmore.edu/egj/myghty_import_hack'])
+
+def install_tasktracker():
+    import subprocess
+    return subprocess.call([
+            'easy_install',
+            'https://svn.openplans.org/svn/TaskTracker/trunk'])
+
 def start_server():
     """
     runs a Paste server within a zopectl shell
