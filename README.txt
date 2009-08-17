@@ -63,14 +63,17 @@ If you want to try this out, you can use
 if you change all the necessary values to something appropriate for your
 installation.
 
-You will need to install TaskTracker manually in your OpenCore virtualenv.
-Surprisingly, this seems to work without any dependency conflicts. After
-you've installed TaskTracker, you'll need to patch your newly installed
-copy of myghty.importer at L56:
+First, install TaskTracker with commands provided by repopencore:
+ `install-myghty-fork && install-tasktracker`
+
+This will install TaskTracker from trunk as well as a version of Myghty
+(which is required by a dependency of TaskTracker) with the following 
+patch applied to myghty.importer at L56:
  -__builtin__.__import__ = import_module
  +#__builtin__.__import__ = import_module
 That monkeypatch of the built-in __import__ seems to break Zope's own
-munging of sys.path which results in ImportErrors all over the place.
+munging of sys.path which results in ImportErrors all over the place,
+hence the forked installation here.
 
 Currently theming (with Deliverance) is not in place, but otherwise the
 integration will actually Just Work as long as you've configured everything
