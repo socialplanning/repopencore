@@ -1,14 +1,22 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.2dev'
+version = '0.2'
 
 README = open('README.txt').read()
+CHANGES = open('CHANGES.txt').read()
+
+long_description = """%s
+New in this version
+===================
+
+%s
+"""
 
 setup(name='repopencore',
       version=version,
       description="run opencore with repoze.zope2",
-      long_description=README,
+      long_description=long_description,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='',
       author='Ethan Jucovy',

@@ -1,0 +1,4 @@
+0.2
+===
+
+Added support for TaskTracker in wSGI pipeline. See README.txt for instructions.
