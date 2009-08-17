@@ -11,7 +11,7 @@ New in this version
 ===================
 
 %s
-"""
+""" % (README, CHANGES)
 
 setup(name='repopencore',
       version=version,

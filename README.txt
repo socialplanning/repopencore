@@ -67,8 +67,10 @@ this out, the steps are similar:
     This will install TaskTracker from trunk as well as a version of Myghty
     (which is required by a dependency of TaskTracker) with the following 
     patch applied to myghty.importer at L56:
+
      -__builtin__.__import__ = import_module
      +#__builtin__.__import__ = import_module
+
     That monkeypatch of the built-in __import__ seems to break Zope's own
     munging of sys.path which results in ImportErrors all over the place,
     hence the forked installation here.
