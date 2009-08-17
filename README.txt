@@ -56,30 +56,47 @@ Fassembler build. I haven't tried any of these.
 What else can it do?
 ====================
 
-There is also a not-yet-formalized proof-of-concept configuration for
-running a single wsgi stack with opencore and tasktracker as endpoints.
-If you want to try this out, you can use
- experimental_highly_broken_config_with_tasktracker_in_process.ini
-if you change all the necessary values to something appropriate for your
-installation.
+There is also an experimental configuration for running a single wsgi
+stack with opencore and tasktracker as endpoints.  If you want to try
+this out, the steps are similar:
 
-First, install TaskTracker with commands provided by repopencore:
- `install-myghty-fork && install-tasktracker`
+ 1. First, install TaskTracker with commands provided by repopencore:
 
-This will install TaskTracker from trunk as well as a version of Myghty
-(which is required by a dependency of TaskTracker) with the following 
-patch applied to myghty.importer at L56:
- -__builtin__.__import__ = import_module
- +#__builtin__.__import__ = import_module
-That monkeypatch of the built-in __import__ seems to break Zope's own
-munging of sys.path which results in ImportErrors all over the place,
-hence the forked installation here.
+    `install-myghty-fork && install-tasktracker`
+
+    This will install TaskTracker from trunk as well as a version of Myghty
+    (which is required by a dependency of TaskTracker) with the following 
+    patch applied to myghty.importer at L56:
+     -__builtin__.__import__ = import_module
+     +#__builtin__.__import__ = import_module
+    That monkeypatch of the built-in __import__ seems to break Zope's own
+    munging of sys.path which results in ImportErrors all over the place,
+    hence the forked installation here.
+
+ 2. Next, generate a configuration file for your deployment:
+
+    `mkopencoreconfig-with-tt 8080 zope/etc/zope/conf ../../../var/secret.txt  ../../../var/admin.txt ./ > opencore-with-tt.ini`
+
+    The first two arguments are the same as `mkopencoreconfig` above.
+    The third and fourth arguments are the paths to your shared secret
+    and admin info files (which are written outside the ./builds directory
+    by Fassembler, since they don't change on every build). The last
+    argument is a base path for TaskTracker to place some of its data
+    including template caches and the SQLite database.
+
+ 3. Initialize the TaskTracker database:
+
+    `paster setup-app opencore-with-tt.ini#tasktracker`
+
+ 4. Start the server:
+
+   `run-opencore-wsgi zope/bin/zopectl opencore.ini`
 
 Currently theming (with Deliverance) is not in place, but otherwise the
 integration will actually Just Work as long as you've configured everything
-correctly per the example INI; make sure you use the provided composite app
-factory to dispatch to tasktracker in the right circumstances with the
-X-Openplans-Project header and other contextual information set.
+correctly.
 
-Remember that you will need to run `paster setup-app opencore.ini#tasktracker`
-or similar on initial TaskTracker installation to set up the database.
+It should also be possible to use this configuration with a pre-existing
+TaskTracker database; just edit the relevant lines in opencore-with-tt.ini
+to point them to your existing database instead of using a newly created
+SQLite database.
