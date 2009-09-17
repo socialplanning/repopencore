@@ -77,7 +77,7 @@ this out, the steps are similar:
 
  2. Next, generate a configuration file for your deployment:
 
-    `mkopencoreconfig-with-tt 8080 zope/etc/zope/conf ../../../var/secret.txt  ../../../var/admin.txt ./ > opencore-with-tt.ini`
+    `mkopencoreconfig-with-tt 8080 zope/etc/zope.conf ../../../var/secret.txt  ../../../var/admin.txt ./ > opencore-with-tt.ini`
 
     The first two arguments are the same as `mkopencoreconfig` above.
     The third and fourth arguments are the paths to your shared secret
