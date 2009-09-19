@@ -57,16 +57,19 @@ What else can it do?
 ====================
 
 There is also an experimental configuration for running a single wsgi
-stack with opencore and tasktracker as endpoints.  If you want to try
-this out, the steps are similar:
+stack with opencore and tasktracker as endpoints, and a Deliverance
+middleware set up to theme tasktracker for full visual integration.
 
- 1. First, install TaskTracker with commands provided by repopencore:
+If you want to try this out, the steps are similar:
 
-    `install-myghty-fork && install-tasktracker`
+ 1. First, install the extra dependencies with commands provided by
+    repopencore:
 
-    This will install TaskTracker from trunk as well as a version of Myghty
-    (which is required by a dependency of TaskTracker) with the following 
-    patch applied to myghty.importer at L56:
+    `install-myghty-fork && install-tasktracker && install-deliverance`
+
+    This will install TaskTracker and Deliverance from trunk as well as
+    a version of Myghty (which is required by a dependency of TaskTracker)
+    with the following patch applied to myghty.importer at L56:
 
      -__builtin__.__import__ = import_module
      +#__builtin__.__import__ = import_module

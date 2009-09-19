@@ -8,6 +8,12 @@ def install_tasktracker():
     return subprocess.call([
             'easy_install',
             'https://svn.openplans.org/svn/TaskTracker/trunk'])
+ 
+def install_deliverance():
+    import subprocess
+    return subprocess.call([
+            'easy_install',
+            'http://codespeak.net/svn/z3/deliverance/trunk'])
 
 def start_server():
     """
@@ -55,12 +61,18 @@ def make_config_with_tt(args=None):
         args = sys.argv[1:]
 
     if len(args) < 2 or args[0] == "--help":
-        print "usage: mkopencoreconfig SERVER_PORT ZOPE_CONF_LOCATION SHARED_SECRET_FILEPATH ADMIN_INFO_FILEPATH BASE_DIR"
+        print "usage: mkopencoreconfig SERVER_PORT ZOPE_CONF_LOCATION SHARED_SECRET_FILEPATH ADMIN_INFO_FILEPATH BASE_DIR DELIVERANCE_RULE_FILE"
         return 1
 
     server_port, zope_conf, \
         shared_secret_file, admin_info_file, here = \
         args[0:5]
+
+    try:
+        deliverance_rule_file = args[6]
+    except IndexError:
+        from pkg_resources import resource_filename
+        deliverance_rule_file = resource_filename('repopencore', 'deliverance.xml')
 
     if not zope_conf.startswith('/'):
         import os
@@ -74,6 +86,9 @@ def make_config_with_tt(args=None):
     if not here.startswith('/'):
         import os
         here = os.getcwd() + os.sep + here
+    if not deliverance_rule_file.startswith('/'):
+        import os
+        deliverance_rule_file = os.getcwd() + os.sep + deliverance_rule_file
 
     from pkg_resources import resource_filename
 

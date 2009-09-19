@@ -57,8 +57,10 @@ def factory(loader, global_conf, **local_conf):
     tasktracker = local_conf['tasktracker']
     tasktracker = loader.get_app(tasktracker)
 
+    deliverance_ruleset = local_conf['.deliverance_rule_file']
 
-    tasktracker = CustomDeliveranceMiddleware(tasktracker, FileRuleGetter('/home/egj/opencore/egj.openplans.org/builds/20081204/opencore/src/repopencore/deliverance.xml'))
+    tasktracker = CustomDeliveranceMiddleware(tasktracker,
+                                              FileRuleGetter(deliverance_ruleset))
 
     tasktracker = App(tasktracker, 'tasktracker')
 

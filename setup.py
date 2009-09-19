@@ -41,6 +41,7 @@ setup(name='repopencore',
 
       install-myghty-fork = repopencore:install_myghty_fork
       install-tasktracker = repopencore:install_tasktracker
+      install-deliverance = repopencore:install_deliverance
 
       mkopencoreconfig-with-tt = repopencore:make_config_with_tt
 
