@@ -46,6 +46,9 @@ class App(object):
     def __call__(self, environ, start_response):
         return self.app(environ, start_response)
 
+from deliverance.middleware import FileRuleGetter    
+from repopencore.deliverance_middleware import CustomDeliveranceMiddleware
+
 def factory(loader, global_conf, **local_conf):
     default_app = local_conf['opencore']
     default_app = loader.get_app(default_app)
@@ -54,8 +57,8 @@ def factory(loader, global_conf, **local_conf):
     tasktracker = local_conf['tasktracker']
     tasktracker = loader.get_app(tasktracker)
 
-    from deliverance.middleware import DeliveranceMiddleware, FileRuleGetter
-    tasktracker = DeliveranceMiddleware(tasktracker, FileRuleGetter('/home/egj/opencore/egj.openplans.org/builds/20081204/opencore/src/repopencore/deliverance.xml'))
+
+    tasktracker = CustomDeliveranceMiddleware(tasktracker, FileRuleGetter('/home/egj/opencore/egj.openplans.org/builds/20081204/opencore/src/repopencore/deliverance.xml'))
 
     tasktracker = App(tasktracker, 'tasktracker')
 
