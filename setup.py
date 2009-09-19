@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.2'
+version = '0.3'
 
 README = open('README.txt').read()
 CHANGES = open('CHANGES.txt').read()

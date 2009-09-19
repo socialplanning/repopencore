@@ -1,4 +1,13 @@
+0.3
+===
+
+TaskTracker is now themed with Deliverance. See README.txt for instructions.
+
+If you already have an `opencore-with-tt.ini` file generated from repopencore 0.2,
+just add ".deliverance_rule_file = /path/to/repopencore/repopencore/deliverance.xml"
+to the `[composite:main]` section to upgrade.
+
 0.2
 ===
 
-Added support for TaskTracker in wSGI pipeline. See README.txt for instructions.
+Added support for TaskTracker in WSGI pipeline. See README.txt for instructions.
