@@ -97,10 +97,6 @@ If you want to try this out, the steps are similar:
 
    `run-opencore-wsgi zope/bin/zopectl opencore.ini`
 
-Currently theming (with Deliverance) is not in place, but otherwise the
-integration will actually Just Work as long as you've configured everything
-correctly.
-
 It should also be possible to use this configuration with a pre-existing
 TaskTracker database; just edit the relevant lines in opencore-with-tt.ini
 to point them to your existing database instead of using a newly created
